@@ -1,14 +1,5 @@
 # **LCMR-3S: Learning Cross-modality Representation via Selective State Space Model for Depression Detection on Social Media [******** 2025]
 
-[Quang Vinh Nguyen](https://github.com/vinhhust2806), 
-Thanh Dong Nguyen,
-Duc Duy Nguyen,
-Doan Khai Ta,
-Ji-Eun Shin,
-Seung-Won Kim,
-Hyung-Jeong Yang,
-Soo-Hyung Kim
-
 Official PyTorch implementation
 
 # :fire: News
