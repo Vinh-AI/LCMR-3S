@@ -52,8 +52,8 @@ Weights for CLIP and RoBERTa encoders
 
 | Window Size | Twitter | Reddit |
 | ------- | ------  | ------ |
-| 128 | [128.ckpt](https://drive.google.com/file/d/1XiD0iTIVQOKs8utzCkAH0ZRoSMIa55Zw/view?usp=drive_link)  | ------ |
-| 256 | [256.ckpt](https://drive.google.com/file/d/1ccKoJ_xa9ZcKYbbU0h28XDd_sP_z1IWZ/view?usp=drive_link)  | ------ |
-| 512 | [512.ckpt](https://drive.google.com/file/d/1bD6Mplrvrd9Qzv-3cAz-xjCESS5SaiVS/view?usp=drive_link)  | ------ |
-| 768 | [768.ckpt](https://drive.google.com/file/d/1lOQpQvzLtndhAskd3TAwyAgkEmTtLR-m/view?usp=drive_link)  | ------ |
-| 1024 | [1024.ckpt](https://drive.google.com/file/d/1j_UmVdonWljPryQcr1Bb6HYLUyMdL-QO/view?usp=drive_link)  | ------ |
+| 128 | [128.ckpt](https://drive.google.com/file/d/1XiD0iTIVQOKs8utzCkAH0ZRoSMIa55Zw/view?usp=drive_link)  | updating... |
+| 256 | [256.ckpt](https://drive.google.com/file/d/1ccKoJ_xa9ZcKYbbU0h28XDd_sP_z1IWZ/view?usp=drive_link)  | updating... |
+| 512 | [512.ckpt](https://drive.google.com/file/d/1bD6Mplrvrd9Qzv-3cAz-xjCESS5SaiVS/view?usp=drive_link)  | updating... |
+| 768 | [768.ckpt](https://drive.google.com/file/d/1lOQpQvzLtndhAskd3TAwyAgkEmTtLR-m/view?usp=drive_link)  | updating... |
+| 1024 | [1024.ckpt](https://drive.google.com/file/d/1j_UmVdonWljPryQcr1Bb6HYLUyMdL-QO/view?usp=drive_link)  | updating... |
