@@ -6,7 +6,7 @@
 pip install -r requirements.txt
 ```
 
-## 🏁 Dataset Preparation
+## 🍓 Dataset Preparation
 
 The Twitter dataset could be downloaded [here](https://drive.google.com/open?id=11ye00sHFY5re2NOBRKreg-tVbDNrc7Xd).
 
