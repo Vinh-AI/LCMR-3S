@@ -1,4 +1,4 @@
-# LCMR-3S: Learning Cross-modality Representation via Selective State Space Model for Depression Detection on Social Media 
+# T-M2S: A Time-Aware Mental State Space for Multimodal Depression Detection on Social Media
 
 ## 💿 Installation
 
@@ -19,17 +19,16 @@ Uban, Ana-Sabina, Berta Chulvi, and Paolo Rosso. [Explainability of Depression D
 python extract_twitter_embeddings.py --modality image --embs clip
 python extract_twitter_embeddings.py --modality image --embs dino
 
-python extract_twitter_embeddings.py --modality text --embs bert
 python extract_twitter_embeddings.py --modality text --embs roberta
 python extract_twitter_embeddings.py --modality text --embs emoberta
-python extract_twitter_embeddings.py --modality text --embs minilm
+python extract_twitter_embeddings.py --modality text --embs mentalbert
 ```
 
 ## 🚀 Training and Evaluating
 ```python
 # Twitter
-python main.py  --config_file configs/combos/clip_roberta.yaml --name fold-0-twitter-ws-128-clip-roberta --group lcmr3s --dataset twitter --fold 0 --window_size 128 --position_embeddings zero --mode run --epochs 200 --batch_size 32
-python evaluate.py  --config_file configs/combos/clip_roberta.yaml --name fold-0-twitter-ws-128-clip-roberta --group lcmr3s --dataset twitter --fold 0 --window_size 128  --position_embeddings zero --output_dir twitter
+python main.py  --config_file configs/combos/dino_mentalbert.yaml --name fold-0-twitter-ws-128-dino-mentalbert --group tm2s --dataset twitter --fold 0 --window_size 128 --position_embeddings time2vec --mode run --epochs 200 --batch_size 256
+python evaluate.py  --config_file configs/combos/dino_mentalbert.yaml --name fold-0-twitter-ws-128-dino-mentalbert --group tm2s --dataset twitter --fold 0 --window_size 128  --position_embeddings time2vec --output_dir twitter
 ```
 
 ## 👀 Visualization
@@ -48,12 +47,12 @@ python visualization/state_space.py --config_file configs/combos/clip_roberta.ya
 ```
 
 ## ❤️️ Weights
-Weights for CLIP and RoBERTa encoders
+Weights for DINO and MentalBERT encoders
 
 | Window Size | Twitter | Reddit |
 | ------- | ------  | ------ |
-| 128 | [128.ckpt](https://drive.google.com/file/d/1XiD0iTIVQOKs8utzCkAH0ZRoSMIa55Zw/view?usp=drive_link)  | updating... |
-| 256 | [256.ckpt](https://drive.google.com/file/d/1ccKoJ_xa9ZcKYbbU0h28XDd_sP_z1IWZ/view?usp=drive_link)  | updating... |
-| 512 | [512.ckpt](https://drive.google.com/file/d/1bD6Mplrvrd9Qzv-3cAz-xjCESS5SaiVS/view?usp=drive_link)  | updating... |
-| 768 | [768.ckpt](https://drive.google.com/file/d/1lOQpQvzLtndhAskd3TAwyAgkEmTtLR-m/view?usp=drive_link)  | updating... |
-| 1024 | [1024.ckpt](https://drive.google.com/file/d/1j_UmVdonWljPryQcr1Bb6HYLUyMdL-QO/view?usp=drive_link)  | updating... |
+| 128 | updating...   | updating... |
+| 256 | updating...   | updating... |
+| 512 | updating...  | updating... |
+| 768 | updating...   | updating... |
+| 1024 | updating...  | updating... |
