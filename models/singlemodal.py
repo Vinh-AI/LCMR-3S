@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 from models.time2vec import Time2Vec
 
-class MambaModel(nn.Module):
+class MoodShift(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, state_selection_threshold=0.):
-        super(MambaModel, self).__init__()
+        super(MoodShift, self).__init__()
         self.hidden_size = hidden_size
         self.state_selection_threshold = state_selection_threshold
         self.i2h = nn.Linear(input_size + hidden_size, hidden_size)
@@ -70,7 +70,7 @@ class SingleModal(torch.nn.Module):
             self.args.final_encoder_args["embedding_size"], 1
         )
         
-        self.mamba = MambaModel(self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"])
+        self.moodshift = MoodShift(self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"])
 
     def _g(self, times):
         return 1 / (times + 1.0)
@@ -88,10 +88,10 @@ class SingleModal(torch.nn.Module):
         modality_feats = modality_feats + position_embeddings
 
         final_vector = self.final_transformer(modality_feats)
-        hidden = self.mamba.init_hidden(final_vector.size(0)).cuda()
+        hidden = self.moodshift.init_hidden(final_vector.size(0)).cuda()
         
         for i in range(final_vector.size(1)):
-            output, hidden = self.mamba(final_vector[:,i], hidden)
+            output, hidden = self.moodshift(final_vector[:,i], hidden)
 
         output = self.output_classification(output)
         output_proba = torch.sigmoid(output)
