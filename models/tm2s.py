@@ -5,9 +5,9 @@ from models.layers.attention import SCL
 
 torch.manual_seed(28)
 
-class MentalStateSpace(nn.Module):
+class MoodShift(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, state_selection_threshold=0.):
-        super(MentalStateSpace, self).__init__()
+        super(MoodShift, self).__init__()
         self.hidden_size = hidden_size
         self.state_selection_threshold = state_selection_threshold
         self.i2h = nn.Linear(input_size + hidden_size, hidden_size)
@@ -81,7 +81,7 @@ class TM2S(torch.nn.Module):
         self.output_classification = torch.nn.Linear(
             self.args.final_encoder_args["embedding_size"], 1
         )
-        self.mamba = MentalStateSpace(self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"])
+        self.moodshift = MoodShift(self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"], self.args.final_encoder_args["embedding_size"])
         self.ln = torch.nn.Linear(self.args.final_encoder_args["embedding_size"],self.args.final_encoder_args["embedding_size"])
         self.ln_emo = torch.nn.Linear(2*self.args.final_encoder_args["embedding_size"],self.args.final_encoder_args["embedding_size"])
 
@@ -119,10 +119,10 @@ class TM2S(torch.nn.Module):
         final_vector = torch.cat([final_vector, emotion_vector], dim = 2)
         final_vector = self.ln_emo(final_vector)
 
-        hidden = self.mamba.init_hidden(final_vector.size(0)).cuda()
+        hidden = self.moodshift.init_hidden(final_vector.size(0)).cuda()
 
         for i in range(final_vector.size(1)):
-            output, hidden = self.mamba(final_vector[:,i], hidden)
+            output, hidden = self.moodshift(final_vector[:,i], hidden)
             hidden = self.ln(hidden * position_embeddings[:,i])
 
         ssm = output
