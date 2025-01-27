@@ -54,5 +54,4 @@ Weights for DINO and MentalBERT encoders
 | 128 | updating...   | updating... |
 | 256 | updating...   | updating... |
 | 512 | updating...  | updating... |
-| 768 | updating...   | updating... |
 | 1024 | updating...  | updating... |
