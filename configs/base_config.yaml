@@ -5,6 +5,7 @@ TEXT_EMBEDDING_SIZES:
   roberta: 768
   minilm: 384
   bert: 768
+  mentalbert: 768
 IMAGE_EMBEDDING_SIZES:
   clip: 768
   dino: 768
