@@ -1,8 +1,8 @@
-import torch
-import torch.nn as nn
 import math
-from typing import Tuple
+import torch
 import numpy as np
+import torch.nn as nn
+from typing import Tuple
 import torch.nn.functional as F
 
 torch.manual_seed(28)
@@ -22,9 +22,9 @@ class ScaledDotProductAttention(nn.Module):
         context = torch.bmm(attn, value) 
         return context, attn
     
-class Guide_Block(nn.Module):
+class Hierarchical_Block(nn.Module):
     def __init__(self, hidden_dim):
-        super(Guide_Block, self).__init__()
+        super(Hierarchical_Block, self).__init__()
         self.att = ScaledDotProductAttention(hidden_dim)
         self.linear_observer = nn.Linear(hidden_dim,hidden_dim)
         self.linear_matrix = nn.Linear(hidden_dim,hidden_dim)
@@ -40,7 +40,7 @@ class Guide_Block(nn.Module):
         
         return new_query_vec, new_key_matrix, att_weight
     
-class GuidedAttention(nn.Module):
+class HierarchicalAttention(nn.Module):
     def __init__(self, args, ctx_dim=None):
         super().__init__()
 
@@ -64,7 +64,7 @@ class GuidedAttention(nn.Module):
         self.softmax = nn.Softmax(dim=-1)
 
         self.dropout = nn.Dropout(0.1)
-        self.guide = Guide_Block(self.all_head_size)
+        self.Hierarchical = Hierarchical_Block(self.all_head_size)
 
     def transpose_for_scores(self, x):
         new_x_shape = x.size()[:-1] + (
@@ -79,7 +79,7 @@ class GuidedAttention(nn.Module):
         mixed_key_layer = self.key(context)
         mixed_value_layer = self.value(context)
         
-        mixed_query_layer, mixed_key_layer, _ = self.guide(mixed_query_layer, mixed_key_layer, mixed_value_layer)
+        mixed_query_layer, mixed_key_layer, _ = self.Hierarchical(mixed_query_layer, mixed_key_layer, mixed_value_layer)
     
         query_layer = self.transpose_for_scores(mixed_query_layer)
         key_layer = self.transpose_for_scores(mixed_key_layer)       
@@ -178,13 +178,13 @@ class AttOutput(nn.Module):
         hidden_states = self.LayerNorm(hidden_states + input_tensor)
         return hidden_states
 
-class SelfGuidedAtt(nn.Module):
+class SelfHierarchicalAtt(nn.Module):
     def __init__(self, args):
-        super(SelfGuidedAtt, self).__init__()
+        super(SelfHierarchicalAtt, self).__init__()
 
         self.args = args
 
-        self.self = GuidedAttention(args)
+        self.self = HierarchicalAttention(args)
         self.output = AttOutput(args)
         
     def forward(self, input_tensor, attention_mask):
@@ -243,15 +243,15 @@ class Output(nn.Module):
         hidden_states = self.LayerNorm(hidden_states + input_tensor)
         return hidden_states
 
-class SOCML(nn.Module):
+class SCL(nn.Module):
     def __init__(self, args):
         super().__init__()
 
         self.args = args
         
-        # Self-Guided Attention Layers
-        self.lang_self_att = SelfGuidedAtt(args)
-        self.visn_self_att = SelfGuidedAtt(args)
+        # Self Hierarchical Attention Layers
+        self.lang_self_att = SelfHierarchicalAtt(args)
+        self.visn_self_att = SelfHierarchicalAtt(args)
 
         # Cross Attention Layer
         self.cross_attention = CrossAtt(args)

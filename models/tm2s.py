@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from models.time2vec import Time2Vec
-from models.layers.attention import SOCML
+from models.layers.attention import SCL
 
 torch.manual_seed(28)
 
@@ -62,7 +62,7 @@ class TM2S(torch.nn.Module):
         )
 
         self.layers = torch.nn.ModuleList(
-            [SOCML(args) for _ in range(self.args.cross_encoder_args["n_layers"])]
+            [SCL(args) for _ in range(self.args.cross_encoder_args["n_layers"])]
         )
 
         self.final_transformer = torch.nn.TransformerEncoder(
