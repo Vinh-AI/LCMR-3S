@@ -15,7 +15,7 @@ EVALUATORS = {
 }
 
 MODELS = {
-    "LCMR-3S": LCMR3S,
+    "T-M2S": TM2S,
     "SingleModal": SingleModal,
     "tlstm": TimeLSTM
 }

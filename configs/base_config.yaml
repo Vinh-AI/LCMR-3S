@@ -8,6 +8,8 @@ TEXT_EMBEDDING_SIZES:
 IMAGE_EMBEDDING_SIZES:
   clip: 768
   dino: 768
+EMOTION_EMBEDDING_SIZES:
+  j-hartmann: 7
 ####################################################
 #####################################################
 
@@ -20,7 +22,7 @@ modality: both
 
 use_class_weights: True
 
-model: LCMR-3S
+model: T-M2S
 
 # can be tim2vec, learned or zero
 position_embeddings: zero
@@ -30,7 +32,7 @@ timestamp_kind: 'relative'
 
 image_embeddings_type: clip
 text_embeddings_type: roberta
-
+emotion_embeddings_type: j-hartmann
 # can be sin or cos
 time2vec_activation: sin
 

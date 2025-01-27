@@ -5,6 +5,7 @@ import torch
 import pickle
 import argparse
 import numpy as np
+from transformers import pipeline
 from transformers import (
     ViTFeatureExtractor,
     ViTModel,
@@ -75,8 +76,37 @@ embs_type = {
             "model_class": AutoModel,
             "input_representation": AutoTokenizer,
         },
+        "mentalbert": {
+            "model_name": "mental/mental-bert-base-uncased",
+            "model_class": AutoModel,
+            "input_representation": AutoTokenizer,
+        },
     },
 }
+
+def extract_emotion_embedding(dataset, embs, label):
+    classifier = pipeline(task="text-classification", model="j-hartmann/emotion-english-distilroberta-base", top_k=None)
+
+    for i in tqdm.tqdm(range(len(dataset))):
+
+        sample = dataset[i]
+        user = sample["author"].split('\\')[-1]
+
+        path = f"{TEXT_EMBEDDINGS_PATH}/{label}/{user}"
+        os.makedirs(path, exist_ok=True)
+
+        if (os.path.exists(f"{path}/{embs}.pkl")) and not os.stat(
+            f"{path}/{embs}.pkl"
+        ).st_size == 0:
+            continue
+
+        encoded_texts = classifier(
+            sample["texts"])
+        
+        encoded_texts = np.array([np.array([item['score'] for item in  encoded_texts[i]]) for i in range(len( encoded_texts))])
+        with open(f"{path}/{embs}.pkl", "wb") as f:
+            pickle.dump(encoded_texts, f)
+
 
 def extract_text_embedding(dataset, model, embs, label):
 
@@ -113,7 +143,7 @@ def extract_image_embedding(dataset, input_representation, model, embs, label):
         os.makedirs(path, exist_ok=True)
 
         embeddings_list = []
-        # print(user, i, 'SAMPLE IMAGES', sample['images'])
+      
         if (os.path.exists(f"{path}/{embs}.pkl")) and not os.stat(
             f"{path}/{embs}.pkl"
         ).st_size == 0:
@@ -161,5 +191,8 @@ def get_embeddings_patches():
 
         elif modality == "text":
             extract_text_embedding(dataset, embs_type[modality][embs]["model_name"], embs, label)
-
+        
+        elif modality == "emotion":
+            extract_emotion_embedding(dataset, embs, label)
+            
 get_embeddings_patches()

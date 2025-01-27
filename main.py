@@ -23,7 +23,7 @@ parser.add_argument("--group", type=str, default="default")
 parser.add_argument("--notes", type=str, default="")
 parser.add_argument("--mode", type=str, default="dryrun")
 parser.add_argument("--epochs", type=int, default=200)
-parser.add_argument("--batch_size", type=int, default=32)
+parser.add_argument("--batch_size", type=int, default=256)
 parser.add_argument("--accumulation_steps", type=int, default=1)
 parser.add_argument("--log_every", type=int, default=5)
 parser.add_argument("--dataset", type=str, default=None)
@@ -42,7 +42,7 @@ os.environ["WANDB_MODE"] = args.mode
 os.environ["WANDB_NAME"] = args.name
 os.environ["WANDB_NOTES"] = args.notes
 
-wandb.init(project="COLING2025", group=args.group, entity="DepressionDetection")
+wandb.init(project="Depress", group=args.group, entity="DepressionDetection")
 
 wandb.config.update(vars(args))
 wandb.config.update({"config": cfg})

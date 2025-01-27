@@ -1,3 +1,3 @@
-from .lcmr3s import LCMR3S
+from .tm2s import TM2S
 from .tlstm import TimeLSTM
 from .singlemodal import SingleModal

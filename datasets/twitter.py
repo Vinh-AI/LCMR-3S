@@ -78,6 +78,12 @@ class TwitterDataset(TimeDataset):
                 "rb",
             ) as f:
                 text_embeddings = pickle.load(f)
+
+        with open(
+                f"{EMBEDDINGS_PATH_TEXT}/{label_name}/{user}/{self.args.emotion_embeddings_type}.pkl",
+                "rb",
+            ) as f:
+            emotion_embeddings = pickle.load(f)
         ########################################
         np.random.seed(28)
 
@@ -85,6 +91,7 @@ class TwitterDataset(TimeDataset):
             sample = self.load_multimodal(
                 image_embeddings=image_embeddings,
                 text_embeddings=text_embeddings,
+                emotion_embeddings=emotion_embeddings,
                 label=label,
                 dates=dates,
                 user_name=user,

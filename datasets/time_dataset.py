@@ -13,7 +13,7 @@ class TimeDataset(Dataset):
             return self.args.IMAGE_EMBEDDING_SIZES[self.args.image_embeddings_type]
 
     def load_multimodal(
-        self, image_embeddings, text_embeddings, dates, label, user_name=None
+        self, image_embeddings, text_embeddings,  emotion_embeddings, dates, label, user_name=None
     ):
         image_size = self._emb_size(kind="image")
         if self.args.position_embeddings != "zero":
@@ -35,6 +35,7 @@ class TimeDataset(Dataset):
 
         idxs = order_idx[start_idx:end_idx]
         text_embeddings = text_embeddings[idxs]
+        emotion_embeddings =  emotion_embeddings[idxs]
         dates = dates[idxs]
 
         image_embeddings_ = np.zeros((len(idxs), image_size))
@@ -78,6 +79,12 @@ class TimeDataset(Dataset):
             "constant",
             constant_values=0.0,
         )
+        emotion_embeddings = np.pad(
+            emotion_embeddings,
+            ((0, padding_amount), (0, 0)),
+            "constant",
+            constant_values=0.0,
+        )
         dates = np.pad(dates, (0, padding_amount), "constant", constant_values=0.0)
 
         sample = {
@@ -92,6 +99,7 @@ class TimeDataset(Dataset):
             ),
             "time": dates.astype(np.float32),
             "label": np.array([label]).astype(np.float32),
+            "emotion_embeddings": emotion_embeddings.astype(np.float32),
             #"idx": idxs
         }
 
